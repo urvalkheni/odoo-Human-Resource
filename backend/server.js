@@ -15,12 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 // Routes
-app.use('/api/auth', require('./routes/auth.routes'));
-app.use('/api/employees', require('./routes/employee.routes'));
-app.use('/api/departments', require('./routes/department.routes'));
-app.use('/api/attendance', require('./routes/attendance.routes'));
-app.use('/api/leaves', require('./routes/leave.routes'));
-app.use('/api/payroll', require('./routes/payroll.routes'));
+app.use('/api/auth', require('./src/routes/auth.routes'));
+app.use('/api/employees', require('./src/routes/employee.routes'));
+app.use('/api/departments', require('./src/routes/department.routes'));
+app.use('/api/attendance', require('./src/routes/attendance.routes'));
+app.use('/api/leaves', require('./src/routes/leave.routes'));
+app.use('/api/payroll', require('./src/routes/payroll.routes'));
 
 // Health check
 app.get('/api/health', (req, res) => {
