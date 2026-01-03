@@ -1,6 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_hr_employee_user,hr.employee.user,base.model_hr_employee,base.group_user,1,0,0,0
-access_hr_employee_officer,hr.employee.officer,base.model_hr_employee,hr.group_hr_user,1,1,1,0
-access_hr_employee_manager,hr.employee.manager,base.model_hr_employee,hr.group_hr_manager,1,1,1,1
-access_hr_department_user,hr.department.user,base.model_hr_department,base.group_user,1,0,0,0
-access_hr_department_manager,hr.department.manager,base.model_hr_department,hr.group_hr_manager,1,1,1,1
