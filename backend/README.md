@@ -4,25 +4,25 @@
 
 ## 🎯 Project Overview
 
-A comprehensive Human Resource Management System (HRMS) built on Odoo framework to digitize and streamline core HR operations including employee onboarding, profile management, attendance tracking, leave management, payroll visibility, and approval workflows.
+A comprehensive Human Resource Management System (HRMS) built with **Node.js**, **Express**, and **PostgreSQL** to digitize and streamline core HR operations including employee onboarding, profile management, attendance tracking, leave management, payroll visibility, and approval workflows.
 
 ## 📁 Project Structure
 
 ```
-odoo-Human-Resource/
-├── addons/                      # Custom Odoo modules
-│   ├── hr_authentication/      # Authentication & Authorization
-│   ├── hr_employee_management/ # Employee profiles & management
-│   ├── hr_attendance_system/   # Attendance tracking
-│   ├── hr_leave_management/    # Leave & time-off management
-│   └── hr_payroll_system/      # Payroll & salary management
-├── config/                      # Configuration files
-├── docs/                        # Documentation
-├── data/                        # Data files
-├── scripts/                     # Utility scripts
-├── tests/                       # Test files
-├── .gitignore
-├── requirements.txt
+backend/
+├── src/
+│   ├── controllers/         # Request handlers
+│   ├── models/             # Database models (Sequelize)
+│   ├── routes/             # API routes
+│   ├── middleware/         # Custom middleware
+│   ├── utils/              # Utility functions
+│   └── database/           # Database configuration
+├── config/                 # Configuration files
+├── uploads/                # File uploads
+├── tests/                  # Test files
+├── .env.example            # Environment variables template
+├── package.json            # Dependencies
+├── server.js               # Entry point
 └── README.md
 ```
 
@@ -92,49 +92,61 @@ odoo-Human-Resource/
 ## 🛠️ Technology Stack
 
 ### Backend
-- **Framework:** Odoo 16.0
-- **Language:** Python 3.8+
-- **Database:** PostgreSQL 12+
-- **ORM:** Odoo ORM
-- **API:** JSON-RPC, REST APIs
+- **Runtime:** Node.js 18+
+- **Framework:** Express.js
+- **Database:** PostgreSQL 14+
+- **ORM:** Sequelize
+- **Authentication:** JWT (JSON Web Tokens)
+- **Email:** Nodemailer
+- **Security:** Helmet, bcryptjs
 
 ### Development Tools
 - **Version Control:** Git & GitHub
-- **Testing:** Pytest, Odoo Test Framework
-- **Code Quality:** Pylint, Black
-- **Documentation:** Markdown
+- **Testing:** Jest, Supertest
+- **API Testing:** Postman/Thunder Client
+- **Code Quality:** ESLint
+- **Process Manager:** Nodemon (dev), PM2 (production)
 
-## 🚀 Getting Started
-
-### Prerequisites
-- Python 3.8+
-- PostgreSQL 12+
+##Node.js 18+ and npm
+- PostgreSQL 14+
 - Git
-- Odoo 16.0
 
 ### Installation
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/urvalkheni/odoo-Human-Resource.git
-   cd odoo-Human-Resource
+   git clone -b backend https://github.com/urvalkheni/odoo-Human-Resource.git backend
+   cd backend
    ```
 
-2. **Create virtual environment**
+2. **Install dependencies**
    ```bash
-   python -m venv venv
-   venv\Scripts\activate  # Windows
+   npm install
    ```
 
-3. **Install dependencies**
+3. **Configure environment**
    ```bash
-   pip install -r requirements.txt
+   cp .env.example .env
+   # Edit .env with your configuration
    ```
 
-4. **Configure database**
-   - Create PostgreSQL database
-   - Update `config/odoo.conf` with credentials
+4. **Create PostgreSQL database**
+   ```sql
+   CREATE DATABASE dayflow_hrms;
+   ```
 
+5. **Start the server**
+   ```bash
+   # Development
+   npm run dev
+   
+   # Production
+   npm start
+   ```
+
+6. **Server will run on**
+   ```
+   http://localhost:5000
 5. **Run Odoo**
    ```bash
    odoo -c config/odoo.conf
@@ -142,12 +154,12 @@ odoo-Human-Resource/
 
 ## 👨‍💻 Team & Module Assignment
 
-| Member | Module | Responsibility |
-|--------|--------|----------------|
-| **Member 1** | `hr_authentication` + `hr_employee_management` | Auth & Employee profiles |
-| **Member 2** | `hr_attendance_system` | Attendance tracking |
-| **Member 3** | `hr_leave_management` | Leave management |
-| **Member 4** | `hr_payroll_system` | Payroll processing |
+| Member | Module | Responsibility | Status |
+|--------|--------|----------------|--------|
+| **Member 1** | Authentication + Employee | Auth & Profile management | ✅ Auth Complete |
+| **Member 2** | Attendance System | Check-in/out, tracking | 🔄 Pending |
+| **Member 3** | Leave Management | Leave requests, approvals | 🔄 Pending |
+| **Member 4** | Payroll System | Salary, payslips | 🔄 Pending |
 
 ## 🔄 Development Workflow
 
@@ -172,22 +184,95 @@ odoo-Human-Resource/
 - `Docs:` - Documentation
 - `Refactor:` - Code refactoring
 
-## 📚 Documentation
+## 📚 API Documentation
 
-- [Backend Architecture](docs/BACKEND_ARCHITECTURE.md)
-- [Setup Guide](docs/SETUP.md)
-- [Module Development](docs/MODULES.md)
-- [API Documentation](docs/API.md)
-- [Contributing Guidelines](docs/CONTRIBUTING.md)
+### Base URL
+```
+http://localhost:5000/api/v1
+```
+
+### Authentication Endpoints
+
+| Method | Endpoint | Description | Access |
+|--------|----------|-------------|--------|
+| POST | `/auth/signup` | Register new user | Public |
+| POST | `/auth/signin` | Login user | Public |
+| GET | `/auth/verify-email/:token` | Verify email | Public |
+| GET | `/auth/me` | Get current user | Private |
+| POST | `/auth/logout` | Logout user | Private |
+| POST | `/auth/forgot-password` | Request password reset | Public |
+| PUT | `/auth/reset-password/:token` | Reset password | Public |
+| PUT | `/auth/change-password` | Change password | Private |
+
+### Request Examples
+
+#### Sign Up
+```bash
+POST /api/v1/auth/signup
+Content-Type: application/json
+
+{
+  "employee_id": "EMP001",
+  "email": "john.doe@company.com",
+  "password": "SecurePass123",
+  "role": "employee",
+  "first_name": "John",
+  "last_name": "Doe",
+  "date_of_joining": "2024-01-01"
+}
+```
+
+#### Sign In
+```bash
+POST /api/v1/auth/signin
+Content-Type: application/json
+
+{
+  "email": "john.doe@company.com",
+  "password": "SecurePass123"
+}
+```
+
+Response:
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "data": {
+    "id": "uuid",
+    "employee_id": "EMP001",
+    "email": "john.doe@company.com",
+    "role": "employee",
+    "is_verified": true,
+    "profile": {...}
+  }
+}
+```
+
+### Module Status
+
+| Module | Status | Features |
+|--------|--------|----------|
+| 🔐 Authentication | ✅ Complete | Signup, Signin, Email verification, Password reset |
+| 👤 Employee Management | 🔄 In Progress | Profile, CRUD operations |
+| 📅 Attendance | 🔄 In Progress | Check-in/out, Daily/weekly views |
+| 🏖️ Leave Management | 🔄 In Progress | Apply leave, Approval workflow |
+| 💰 Payroll | 🔄 In Progress | Salary structure, Payslips |
+| 📊 Dashboard | 🔄 In Progress | Analytics, Reports |
 
 ## 🎯 Project Status
 
-- ✅ Project structure setup
-- ✅ Employee Management Module (Backend Complete)
-- 🔄 Authentication Module (In Progress)
+- ✅ Project structure setup (Node.js + Express + PostgreSQL)
+- ✅ Database models created (User, Employee, Attendance, Leave, Payroll)
+- ✅ Authentication Module Complete (Signup, Signin, Email verification, Password reset)
+- ✅ JWT-based authentication middleware
+- ✅ Role-based access control
+- 🔄 Employee Management API (In Progress)
 - 🔄 Attendance System (Pending)
 - 🔄 Leave Management (Pending)
 - 🔄 Payroll System (Pending)
+- 🔄 Dashboard & Analytics (Pending)
 
 ## 🔮 Future Enhancements
 
