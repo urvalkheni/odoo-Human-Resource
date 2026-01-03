@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Main Menu -->
+    <menuitem id="menu_hr_employee_management_root"
+              name="Employee Management"
+              sequence="5"
+              web_icon="hr_employee_management,static/description/icon.png"/>
+    
+    <!-- Employees Submenu -->
+    <menuitem id="menu_employee_management"
+              name="Employees"
+              parent="menu_hr_employee_management_root"
+              action="action_employee_custom"
+              sequence="10"/>
+    
+    <!-- Departments Submenu -->
+    <menuitem id="menu_department_management"
+              name="Departments"
+              parent="menu_hr_employee_management_root"
+              action="action_department_custom"
+              sequence="20"/>
+</odoo>
