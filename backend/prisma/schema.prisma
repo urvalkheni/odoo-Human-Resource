@@ -1,0 +1,93 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  EMPLOYEE
+  ADMIN
+  HR
+}
+
+enum LeaveStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  HALF_DAY
+  LEAVE
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  role      Role
+  createdAt DateTime @default(now())
+
+  employee  Employee?
+}
+
+model Employee {
+  id          Int      @id @default(autoincrement())
+  userId      Int      @unique
+  employeeId  String   @unique
+  name        String
+  phone       String?
+  address     String?
+  department  String
+  designation String
+  joiningDate DateTime
+  salary      Float
+  profilePic  String?
+
+  user        User      @relation(fields: [userId], references: [id])
+  attendance  Attendance[]
+  leaves      LeaveRequest[]
+  payrolls    Payroll[]
+}
+
+model Attendance {
+  id        Int               @id @default(autoincrement())
+  employeeId Int
+  date      DateTime
+  checkIn   DateTime?
+  checkOut  DateTime?
+  status    AttendanceStatus
+
+  employee  Employee @relation(fields: [employeeId], references: [id])
+}
+
+model LeaveRequest {
+  id          Int         @id @default(autoincrement())
+  employeeId  Int
+  type        String
+  startDate  DateTime
+  endDate    DateTime
+  reason     String?
+  status     LeaveStatus @default(PENDING)
+  adminNote  String?
+
+  employee   Employee @relation(fields: [employeeId], references: [id])
+}
+
+model Payroll {
+  id          Int      @id @default(autoincrement())
+  employeeId  Int
+  month       String
+  year        Int
+  basicPay    Float
+  deductions  Float
+  netPay      Float
+  generatedAt DateTime @default(now())
+
+  employee    Employee @relation(fields: [employeeId], references: [id])
+}

@@ -21,6 +21,7 @@
     'depends': ['hr', 'base', 'mail'],
     'data': [
         'security/ir.model.access.csv',
+        'data/sequence.xml',
         'views/employee_views.xml',
         'views/department_views.xml',
         'views/menu_views.xml',
