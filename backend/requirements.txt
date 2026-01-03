@@ -1,0 +1,37 @@
+# Node.js Backend Requirements
+
+
+## Dependencies (listed in package.json)
+- express: Web framework
+- pg: PostgreSQL client
+- sequelize: ORM for PostgreSQL
+- bcryptjs: Password hashing
+- jsonwebtoken: JWT authentication
+- dotenv: Environment configuration
+- cors: CORS middleware
+- helmet: Security headers
+- express-validator: Request validation
+- nodemailer: Email service
+- multer: File upload handling
+
+## Dev Dependencies
+- nodemon: Development server
+- jest: Testing framework
+- supertest: HTTP testing
+- eslint: Code linting
+
+## Installation Command
+```bash
+npm install
+```
+
+## Start Development
+```bash
+npm run dev
+```
+
+## Start Production
+```bash
+npm start
+```
+
