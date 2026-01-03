@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Employee List View -->
+    <record id="view_employee_tree_custom" model="ir.ui.view">
+        <field name="name">hr.employee.tree.custom</field>
+        <field name="model">hr.employee</field>
+        <field name="arch" type="xml">
+            <tree string="Employees">
+                <field name="employee_code"/>
+                <field name="name"/>
+                <field name="work_email"/>
+                <field name="work_phone"/>
+                <field name="department_id"/>
+                <field name="job_id"/>
+                <field name="active_status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Employee Form View -->
+    <record id="view_employee_form_custom" model="ir.ui.view">
+        <field name="name">hr.employee.form.custom</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_activate" string="Activate" type="object" 
+                            class="oe_highlight" attrs="{'invisible': [('active_status', '=', 'active')]}"/>
+                    <button name="action_deactivate" string="Deactivate" type="object"
+                            attrs="{'invisible': [('active_status', '!=', 'active')]}"/>
+                    <button name="action_terminate" string="Terminate" type="object" 
+                            confirm="Are you sure you want to terminate this employee?"/>
+                    <field name="active_status" widget="statusbar"/>
+                </header>
+            </xpath>
+            
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="employee_code" readonly="1"/>
+            </xpath>
+            
+            <xpath expr="//notebook" position="inside">
+                <!-- Personal Information Tab -->
+                <page string="Personal Information">
+                    <group>
+                        <group>
+                            <field name="date_of_birth"/>
+                            <field name="age"/>
+                            <field name="gender"/>
+                            <field name="blood_group"/>
+                            <field name="marital_status"/>
+                        </group>
+                        <group>
+                            <field name="personal_email"/>
+                            <field name="personal_mobile"/>
+                            <field name="emergency_contact_name"/>
+                            <field name="emergency_contact_number"/>
+                        </group>
+                    </group>
+                    <group string="Address">
+                        <field name="current_address" placeholder="Current Address"/>
+                        <field name="permanent_address" placeholder="Permanent Address"/>
+                    </group>
+                </page>
+                
+                <!-- Employment Information Tab -->
+                <page string="Employment">
+                    <group>
+                        <group>
+                            <field name="date_of_joining"/>
+                            <field name="employee_type"/>
+                            <field name="probation_period"/>
+                            <field name="confirmation_date"/>
+                            <field name="notice_period"/>
+                        </group>
+                    </group>
+                </page>
+                
+                <!-- Professional Information Tab -->
+                <page string="Professional">
+                    <group>
+                        <group>
+                            <field name="qualification"/>
+                            <field name="previous_experience"/>
+                            <field name="total_experience"/>
+                        </group>
+                        <group>
+                            <field name="skills" widget="text"/>
+                        </group>
+                    </group>
+                </page>
+                
+                <!-- Bank Details Tab -->
+                <page string="Bank Details">
+                    <group>
+                        <group>
+                            <field name="bank_name"/>
+                            <field name="bank_account_number"/>
+                            <field name="bank_ifsc_code"/>
+                        </group>
+                        <group>
+                            <field name="pan_number"/>
+                            <field name="aadhar_number"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Employee Action -->
+    <record id="action_employee_custom" model="ir.actions.act_window">
+        <field name="name">Employees</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_active_employees': 1}</field>
+    </record>
+</odoo>
