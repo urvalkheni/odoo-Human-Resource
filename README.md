@@ -292,13 +292,7 @@ For questions or issues:
 - Contact team members
 - Check documentation
 
-## 📝 License
 
-[Specify your license]
-
-## 🙏 Acknowledgments
-
-Built with ❤️ by the HRMS Team
 
 ---
 
