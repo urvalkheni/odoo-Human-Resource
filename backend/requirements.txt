@@ -1,7 +1,5 @@
 # Node.js Backend Requirements
 
-## Installation
-npm install
 
 ## Dependencies (listed in package.json)
 - express: Web framework

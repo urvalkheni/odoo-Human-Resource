@@ -31,9 +31,7 @@ uploads/*
 *.sublime-project
 *.sublime-workspace
 
-# OS
-.DS_Store
-Thumbs.db
+
 
 # Build
 dist/
